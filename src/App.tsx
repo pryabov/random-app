@@ -37,11 +37,12 @@ const App: React.FC = () => {
   };
 
   const randomizeTopics = () => {
-    const shuffledPersons = [...persons.slice(numberOfFrozenPersons)];
+    let shuffledPersons = [...persons.slice(numberOfFrozenPersons)];
     const outputList: JSX.Element[] = [];
 
     shuffleArray(shuffledPersons);
-    let availablePersons = [...persons.slice(0, numberOfFrozenPersons), ...shuffledPersons];
+    shuffledPersons = [...persons.slice(0, numberOfFrozenPersons), ...shuffledPersons];
+    let availablePersons = [...shuffledPersons];
 
     let iteration = 0;
 
