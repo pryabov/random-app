@@ -8,12 +8,22 @@ interface Topic {
 }
 
 const App: React.FC = () => {
-  const [persons, setPersons] = useState<string[]>(['Alice', 'Bob', 'Charlie']);
+  const numberOfFrozenPersons = 1;
+
+  const [persons, setPersons] = useState<string[]>([
+    'Alice',
+    'Bob',
+    'Charlie',]);
   const [topics, setTopics] = useState<Topic[]>([
-    { topicName: 'Topic 1', requiredAmountOfPeople: 2 },
-    { topicName: 'Topic 2', requiredAmountOfPeople: 2 },
-    { topicName: 'Topic 3', requiredAmountOfPeople: 3 },
-    { topicName: 'Topic 4', requiredAmountOfPeople: 2 },
+    { topicName: '1. JavaScript Essentials Part 1', requiredAmountOfPeople: 3 },
+    { topicName: '2. JavaScript Essentials Part 2', requiredAmountOfPeople: 3 },
+    { topicName: '3. React Basics. JSX. Components (Class(only overview) and Functional). Components Lifecycle', requiredAmountOfPeople: 2 },
+    { topicName: '4. Props, Children, State Management. Components re-rendering. Optimization', requiredAmountOfPeople: 2 },
+    { topicName: '5. State management Libraries (Redux, Context API)', requiredAmountOfPeople: 2 },
+    { topicName: '6. Hooks, Router', requiredAmountOfPeople: 2 },
+    { topicName: '7. Styling. Conventions e.g. BEM. Data Fetching', requiredAmountOfPeople: 2 },
+    { topicName: '8. Tools and Ecosystem', requiredAmountOfPeople: 2 },
+    { topicName: '9. Testing', requiredAmountOfPeople: 2 },
   ]);
   const [output, setOutput] = useState<JSX.Element[]>([]);
 
@@ -27,11 +37,11 @@ const App: React.FC = () => {
   };
 
   const randomizeTopics = () => {
-    const shuffledPersons = [...persons];
+    const shuffledPersons = [...persons.slice(numberOfFrozenPersons)];
     const outputList: JSX.Element[] = [];
 
     shuffleArray(shuffledPersons);
-    let availablePersons = [...shuffledPersons];
+    let availablePersons = [...persons.slice(0, numberOfFrozenPersons), ...shuffledPersons];
 
     let iteration = 0;
 
@@ -45,7 +55,7 @@ const App: React.FC = () => {
 
         topicPersons.push(...availablePersons.splice(0, topic.requiredAmountOfPeople - topicPersons.length).map((person) => {
           const hue = (iteration * 40) % 360;
-          return <span style={{ color: `hsl(${hue}, 100%, 50%)` }}>{person}</span>;
+          return <span key={person + iteration} style={{ color: `hsl(${hue}, 100%, 50%)` }}>{person}</span>;
         }));
       }
 
